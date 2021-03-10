@@ -1,8 +1,8 @@
 {
-  "name": "Why So Serious?",
-  "version": "0.0.0.2",
-  "description": "Build an Extension!",
-  "permissions": ["storage", "declarativeContent", "activeTab"],
+  "name": "Chess.com Next Move",
+  "version": "0.0.1",
+  "description": "Allows you to consider next best move with a given board state",
+  "permissions": ["storage", "declarativeContent", "activeTab", "https://www.chess.com/"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false

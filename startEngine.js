@@ -17,14 +17,14 @@ chrome.storage.sync.get(['borw'], function(result) {
   
     // get the x,y positions of each pair
     var regExp = /square-([^)]+)/;
-    var typeRegExp = /\/([A-z]{2})\.png/;
+    var pieceTypeRegex = /(wp)|(wr)|(wn)|(wb)|(wq)|(wk)|(bp)|(br)|(bn)|(bb)|(bq)|(bk)/;
     [].forEach.call(pieces, (element) => {
       var matches = regExp.exec(element.className);
-      var pieceType = typeRegExp.exec(element.style.cssText);
-      var row = parseInt(matches[1].substring(0,2)) - 1;
-      var col = parseInt(matches[1].substring(2,4)) - 1;
+      var pieceType = pieceTypeRegex.exec(element.className);
+      var row = parseInt(matches[1].substring(0,1)) - 1;
+      var col = parseInt(matches[1].substring(1,2)) - 1;
       // build the board in a state
-      state[col][row] = pieceType[1];
+      state[col][row] = pieceType[0];
     });
   
     // console.log(state);
@@ -70,13 +70,14 @@ chrome.storage.sync.get(['borw'], function(result) {
   }
   
   function next(turn, cState, enpass, half, full ){
-    // fetch("https://chess.apurn.com/nextmove", {
-    fetch("https://localhost:8000/nextmove", {
+    fetch("https://chess.apurn.com/nextmove", {
+    // fetch("https://localhost:8000/nextmove", {
       method: "POST",
       body: getBoardState(document, turn, cState, enpass, half, full)
     })
       .then((res) => res.text())
-      .then((data) => alert(data));
+      .then((data) => alert(data))
+      .catch((e) => console.error(e));
   }
   
   var ChessState = {};
@@ -97,12 +98,12 @@ chrome.storage.sync.get(['borw'], function(result) {
   var callback = function(mutationsList, observer) {
       for(var mutation of mutationsList) {
           if (mutation.type == 'attributes' && mutation.attributeName == 'class' ) {
-              if(mutation.target.className.includes("clock-playerTurn") && ChessState.userColor == 'b') {
+              if(mutation.target.className.includes("clock-player-turn") && ChessState.userColor == 'b') {
                 console.log("Black to move, user is black");
                 
                 // use timeout to prevent not updated board state
                 setTimeout(() => next('b', ChessState.cState, ChessState.enpassant, ChessState.halfMove, ChessState.fullMove), 500);
-              } else if (!mutation.target.className.includes("clock-playerTurn") && ChessState.userColor == 'w') {
+              } else if (!mutation.target.className.includes("clock-clock-playerTurn") && ChessState.userColor == 'w') {
                 console.log("White to move, user is white");
   
                 // use timeout to prevent not updated board state
