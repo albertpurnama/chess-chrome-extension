@@ -1,21 +1,17 @@
 let trollBtn = document.getElementById('troll');
 let getState = document.getElementById('getState');
 
-chrome.storage.sync.get('trollBtn', function(data) {
-  console.log(data.trollBtn);
-});
-
 trollBtn.onclick = function(element) {
-  trollBtn.disabled = true;
-  chrome.storage.sync.set({trollBtn:"disabled"}, () => {
-    console.log("Disabled Troll Button!");
+  var borw = document.getElementById('borw').value;
+  chrome.storage.sync.set({'borw':borw}, function(){
+    console.log('Value is set to ' + value);
   })
-
   // let color = element.target.value;
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.executeScript(
       tabs[0].id,
-      {file: 'startEngine.js'});
+      {file: 'startEngine.js'}
+    );
   });
 };
 
@@ -26,3 +22,8 @@ getState.onclick = function() {
         {file: 'status.js'});
   });
 }
+
+document.getElementById('show-instruction').addEventListener("click", ()=> {
+  instructionDiv = document.getElementById('instructions-div');
+  instructionDiv.style.display = "block";
+});

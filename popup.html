@@ -2,9 +2,26 @@
 <html lang="en">
   <head>
     <link href="stylesheet/main.css" rel="stylesheet" />
+    <style>
+    </style>
   </head>
   <body>
-    <button id="troll" class="btn-primary"> Troll Now!</button>
+    <button id="show-instruction">Show Instructions</button>
+    <div id="instructions-div">
+      <h2>How to use:</h2>
+      <ol>
+        <li>Go to live match in chess.com</li>
+        <li>Wait for match with an opponent</li>
+        <li>Fill in your pieces color (w for white, b for black)</li>
+        <li>Once you found a match, press Troll Now! and make any first move</li>
+        <li>An alert box will show up with chess moves</li>
+        <li>After your game is finished, refresh the page before starting a new one, repeat the steps</li>
+      </ol>
+    </div>
+
+    <input type="text" name="borw" id="borw" placeholder="b or w"/>
+
+    <button id="troll" class="btn-primary">Troll Now!</button>
     <button id="getState"> Status</button>
     <script src="popup.js"></script>
   </body>
